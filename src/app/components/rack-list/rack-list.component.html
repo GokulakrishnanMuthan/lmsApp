@@ -1,0 +1,65 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Rack List</span>
+      <span class="example-spacer"></span>
+      <!-- <button mat-raised-button color="accent" (click)="newissue()">
+        New 
+      </button> -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <mat-card>
+  
+      <mat-card-content>
+  
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Name" #input>
+      </mat-form-field>
+    
+    <div class="mat-elevation-z8">
+        
+        <table mat-table matSort [dataSource]="dataSource">
+      
+          <!-- username Column -->
+         
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="rackName" class="make-alert">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rack Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.rackName}} </td>
+          </ng-container>
+          
+          
+          <!-- Name Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+          </ng-container>
+          
+          <!-- Name Column -->
+          <ng-container matColumnDef="subTitle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Title</th>
+            <td mat-cell *matCellDef="let element"> {{element.subTitle}} </td>
+          </ng-container>
+  
+      
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element"> 
+                <mat-icon color="primary" (click)="returnBook(element)">view_list</mat-icon>&nbsp;&nbsp;
+                
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row [ngClass]="{'make-alert': row.overDue == 1}" *matRowDef="let row; columns: displayedColumns;" ></tr>
+        </table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 20,50,100]"
+                       showFirstLastButtons
+                       aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+    </mat-card>

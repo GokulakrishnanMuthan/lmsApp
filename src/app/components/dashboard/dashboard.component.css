@@ -1,0 +1,29 @@
+
+  
+mat-card {
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+    
+  }
+
+
+mat-card-header{
+    background-color:gold ;
+    padding:5px ;
+    color: white;
+    
+  }
+
+  mat-card-title { 
+    margin-left: 50px;
+   }
+
+  mat-card-content{
+    padding-top: 15px;
+    text-align: center;
+}
+
+  mat-card-content h1{
+
+    font-size: 30px;
+  }

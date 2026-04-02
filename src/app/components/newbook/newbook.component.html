@@ -1,0 +1,219 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>New Book</span>
+      <span class="example-spacer"></span>
+
+      <!-- <button mat-raised-button color="accent">Save</button>&nbsp;&nbsp;
+      <button mat-raised-button color="primary" (click)="bookMaster()">Back</button> -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <br />
+
+  <form class="example-form" [formGroup]="bookFrom" (ngSubmit)="saveBook()">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Access No</mat-label>
+            <input matInput formControlName="accessno"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Rack No</mat-label>
+            <input matInput formControlName="rackNo"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Row</mat-label>
+            <input matInput formControlName="row"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Sl No</mat-label>
+            <input matInput formControlName="slNo"/>
+          </mat-form-field>
+        </td>
+       
+      </tr>
+     
+      <tr>
+        
+        <td colspan="2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Book Title</mat-label>
+            <input matInput formControlName="title"/>
+          </mat-form-field>
+        </td>
+      
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Author</mat-label>
+            <input matInput formControlName="author"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="language">
+              <mat-option *ngFor="let language of languages" [value]="language">
+                {{language}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>ISBN</mat-label>
+            <input matInput formControlName="isbn"/>
+          </mat-form-field>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Publisher</mat-label>
+            <input matInput formControlName="publisher"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Year</mat-label>
+            <input matInput formControlName="year"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Book Condition</mat-label>
+            <mat-select formControlName="bookCondition">
+              <mat-option *ngFor="let bs of bookCondition" [value]="bs">
+                {{bs}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Category</mat-label>
+            <input matInput formControlName="topic"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Class No</mat-label>
+            <input matInput formControlName="classno"/>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Book Status</mat-label>
+            <mat-select formControlName="bookStatus">
+              <mat-option *ngFor="let bs of bookStatus" [value]="bs">
+                {{bs}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Extn</mat-label>
+            <input matInput formControlName="extn"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>AN</mat-label>
+            <input matInput formControlName="an"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>SN</mat-label>
+            <input matInput formControlName="sn"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Total Copies</mat-label>
+            <input matInput formControlName="totalCopies"/>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Remarks</mat-label>
+            <input matInput formControlName="remarks"/>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Col No</mat-label>
+            <input matInput formControlName="colno"/>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button mat-raised-button color="primary" >Save</button>&nbsp;&nbsp;
+          <button mat-raised-button color="warn" (click)="bookMaster()">Back</button>
+
+        </td>
+      </tr>
+    </table>
+
+  
+<!-- 
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>City</mat-label>
+            <input matInput placeholder="Ex. San Francisco" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>State</mat-label>
+            <input matInput placeholder="Ex. California" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Postal Code</mat-label>
+            <input
+              matInput
+              #postalCode
+              maxlength="5"
+              placeholder="Ex. 94105"
+              value="94043"
+            />
+            <mat-hint align="end">{{ postalCode.value.length }} / 5</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table> -->
+  </form>
+
+
+
+
+
+  
+  
+</mat-card>

@@ -1,0 +1,71 @@
+<mat-grid-list cols="4" rowHeight="2:1" gutterSize="15px" >
+    <mat-grid-tile>
+        <mat-card >
+            <mat-card-header style="background-color:#283593;padding:5px">
+                <mat-card-title>Book Master</mat-card-title>
+                
+            </mat-card-header>
+            <mat-card-content>
+                    <h1>{{bookCount}}</h1>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card>
+            <mat-card-header  style="background-color:#004d40;padding:5px;align-items: center;">
+                <mat-card-title>Book Lent Count </mat-card-title>
+                
+            </mat-card-header>
+            <mat-card-content>
+                    <h1>{{bookIssueCount}}</h1>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+     <mat-grid-tile>
+        <mat-card (click)="gotoBookLent()">
+            <mat-card-header style="background-color:#b71c1c;padding:5px;cursor: pointer;">
+                <mat-card-title>Overdue Books Count</mat-card-title>
+                
+            </mat-card-header>
+            <mat-card-content style="cursor: pointer;">
+                    <h1>{{overDueBooks}}</h1>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile> 
+    <mat-grid-tile>
+        <mat-card>
+            <mat-card-header style="background-color:#4a148c;padding:5px">
+                <mat-card-title>Devote Count</mat-card-title>
+                
+            </mat-card-header>
+            <mat-card-content>
+                    <h1>{{devoteCount}}</h1>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <br>
+    <br>  <br>
+  <mat-grid-list cols="4" rowHeight="2:1" gutterSize="15px" >
+    <mat-grid-tile>
+        <mat-card >
+            <mat-card-header style="background-color:#283593;padding:5px">
+                <mat-card-title>Current Year &nbsp;&nbsp;&nbsp;
+                                        
+                    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="editYear()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </mat-card-title>
+                
+            </mat-card-header>
+            <mat-card-content>
+                    <h2> {{currentFromDate}} -  {{currentToDate}}</h2>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+  
+    
+  </mat-grid-list>
+  
+  

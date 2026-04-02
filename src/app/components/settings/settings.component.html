@@ -1,0 +1,64 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Settings</span>
+      <span class="example-spacer"></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <br />
+
+  <!-- Current year details -->
+  <div style="margin-left: 15px; font-weight: 500; color: #3f51b5;">
+    Current Academic Year:
+    <span *ngIf="currentYear">
+      {{ currentYear.fromDate | date:'dd-MMM-yyyy' }} - {{ currentYear.toDate | date:'dd-MMM-yyyy' }}
+    </span>
+    <span *ngIf="!currentYear">
+      Not available
+    </span>
+  </div>
+
+  <br />
+
+  <!-- Add Next Year button -->
+  <div style="margin-left: 15px;">
+    <button mat-raised-button color="primary" (click)="showForm = true" *ngIf="!showForm">
+      Add Next Year
+    </button>
+  </div>
+  <br />
+
+  <!-- Next Year Form -->
+  <form class="example-form" *ngIf="showForm" [formGroup]="yearForm" (ngSubmit)="saveNextYear()">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>From Date</mat-label>
+            <input matInput [matDatepicker]="fromPicker" formControlName="fromDate" />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>To Date</mat-label>
+            <input matInput [matDatepicker]="toPicker" formControlName="toDate" />
+            <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2" style="text-align: center;">
+          <button mat-raised-button color="primary" [disabled]="yearForm.invalid">Save</button>
+          &nbsp;&nbsp;
+          <button mat-raised-button color="warn" type="button" (click)="cancelForm()">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</mat-card>

@@ -1,0 +1,78 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Book Return</span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="accent" (click)="saveBookReturnDetails()">Save</button>&nbsp;&nbsp;
+    <button mat-raised-button color="primary" (click)="cancel()">Back</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+    <div class="mat-elevation-z8">
+      <table mat-table matSort [dataSource]="dataSource">
+
+        <!-- Book Title -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <!-- Issue Date -->
+        <ng-container matColumnDef="issueDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Issue Date </th>
+          <td mat-cell *matCellDef="let element"> {{element.issueDate}} </td>
+        </ng-container>
+
+
+
+        <ng-container matColumnDef="expireDate">
+        <th mat-header-cell *matHeaderCellDef> Expire Date </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field appearance="outline">
+            <input matInput [matDatepicker]="expirePicker" [(ngModel)]="element.expireDate">
+            <mat-datepicker-toggle matSuffix [for]="expirePicker"></mat-datepicker-toggle>
+            <mat-datepicker #expirePicker></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+<ng-container matColumnDef="bookreturnDate">
+  <th mat-header-cell *matHeaderCellDef> Return Date </th>
+  <td mat-cell *matCellDef="let element">
+    <mat-form-field appearance="outline">
+      <input matInput [matDatepicker]="returnPicker" [(ngModel)]="element.bookreturnDate"
+             [readonly]="element.bookreturnDate !== null">
+      <mat-datepicker-toggle matSuffix [for]="returnPicker"
+                             >
+      </mat-datepicker-toggle>
+      <mat-datepicker #returnPicker></mat-datepicker>
+    </mat-form-field>
+  </td>
+</ng-container>
+
+
+
+          <!-- Shared datepicker at bottom -->
+          <mat-datepicker #picker></mat-datepicker>
+
+
+        <!-- Comments -->
+        <ng-container matColumnDef="comments">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Comments </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="outline" style="width: 200px !important;">
+              <input matInput placeholder="Comments" [(ngModel)]="element.comments" />
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

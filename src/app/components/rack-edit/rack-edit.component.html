@@ -1,0 +1,86 @@
+<mat-card>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>Rack Edit</span>
+        <span class="example-spacer"></span>
+  
+        <!-- <button mat-raised-button color="accent">Save</button>&nbsp;&nbsp;
+        <button mat-raised-button color="primary" (click)="bookMaster()">Back</button> -->
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <br />
+  
+    <form class="example-form" [formGroup]="rackForm" (ngSubmit)="saveRack()">
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Rack No</mat-label>
+                <input matInput formControlName="rackName"/>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Title</mat-label>
+                <input matInput formControlName="title"/>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Sub Title</mat-label>
+                <input matInput formControlName="subTitle"/>
+              </mat-form-field>
+            </td>
+           
+          </tr>
+         
+          
+          
+         
+          <tr>
+            <td>
+              <button mat-raised-button color="primary" >Save</button>&nbsp;&nbsp;
+              <button mat-raised-button color="warn" (click)="bookMaster()">Back</button>
+    
+            </td>
+          </tr>
+        </table>
+    
+      
+    <!-- 
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="Ex. San Francisco" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>State</mat-label>
+                <input matInput placeholder="Ex. California" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Postal Code</mat-label>
+                <input
+                  matInput
+                  #postalCode
+                  maxlength="5"
+                  placeholder="Ex. 94105"
+                  value="94043"
+                />
+                <mat-hint align="end">{{ postalCode.value.length }} / 5</mat-hint>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table> -->
+      </form>
+    
+    
+  
+    
+  </mat-card>
+  

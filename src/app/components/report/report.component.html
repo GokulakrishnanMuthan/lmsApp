@@ -1,0 +1,249 @@
+<mat-accordion class="example-headers-align">
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title><br>
+          Book Master<br><br>  
+        </mat-panel-title>
+        <mat-panel-description>
+          Book Master Report
+          
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <form [formGroup]="searchForm" > 
+            
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Book Search</mat-label>
+                  <input type="text"
+                        aria-label="Book Search"
+                        matInput
+                        formControlName="bookNameSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>  
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Author Search </mat-label>
+                  <input type="text"
+                        aria-label="Author Search"
+                        matInput
+                        formControlName="authorSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Publisher Search </mat-label>
+                  <input type="text"
+                        aria-label="Publisher Search"
+                        matInput
+                        formControlName="publisherSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Category Search </mat-label>
+                  <input type="text"
+                        aria-label="Category Search"
+                        matInput
+                        formControlName="categorySearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline"  style="width: 150px !important;">
+                  <mat-label>language </mat-label>
+                  <input type="text" 
+                        aria-label="languageSearch"
+                        matInput
+                        formControlName="languageSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+               <td>
+                <mat-form-field class="search__form_field" appearance="outline"  style="width: 150px !important;">
+                  <mat-label>Rack </mat-label>
+                  <input type="text"
+                        aria-label="rackSearch"
+                        matInput
+                        formControlName="rackSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline"  style="width: 150px !important;">
+                  <mat-label>Row </mat-label>
+                  <input type="text" 
+                        aria-label="rowSearch"
+                        matInput
+                        formControlName="rowSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>  
+            </tr>
+          </tbody>
+        </table>
+ </form>
+      
+<div class="mat-elevation-z8" #TABLE>
+
+  
+    <table mat-table matSort [dataSource]="dataSource" #table>
+      
+       <!-- username Column -->
+       <ng-container matColumnDef="rackNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Rack</th>
+        <td mat-cell *matCellDef="let element"> {{element.rack_no}} </td>
+      </ng-container>
+
+       <!-- username Column -->
+       <ng-container matColumnDef="row">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Row_No</th>
+        <td mat-cell *matCellDef="let element"> {{element.row}} </td>
+      </ng-container>
+
+       <!-- username Column -->
+       <ng-container matColumnDef="language">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Language </th>
+        <td mat-cell *matCellDef="let element"> {{element.language}} </td>
+      </ng-container>
+
+       <!-- username Column -->
+       <ng-container matColumnDef="topic">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+        <td mat-cell *matCellDef="let element"> {{element.topic}} </td>
+      </ng-container>
+
+
+      <!-- username Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="isbn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ISBN </th>
+        <td mat-cell *matCellDef="let element"> {{element.isbn}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
+        <td mat-cell *matCellDef="let element"> {{element.author}} </td>
+      </ng-container>
+      <ng-container matColumnDef="publisher">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Publisher </th>
+        <td mat-cell *matCellDef="let element"> {{element.publisher}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="publisheraddress">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Publisher Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.publisheraddress}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element"> 
+            <!-- <mat-icon (click)="updateUser(element.title)">edit</mat-icon>&nbsp; -->
+            <!-- <mat-icon color="primary" (click)="updateBook(element.id)">edit</mat-icon>&nbsp;&nbsp; -->
+            <!-- <mat-icon color="warn">delete</mat-icon> -->
+        </td>
+      </ng-container>
+  
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10,50,100,200,500,1000]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div><br><br> 
+  <div><button mat-raised-button color="primary" (click)="ExportTOExcel()">Export as Excel</button></div>
+
+
+      <mat-action-row>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title><br>
+            Book Lent Datewise <br><br>  
+        </mat-panel-title>
+        <mat-panel-description>
+          Daywise report search
+          <mat-icon>map</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+        <app-reportbooklentdatewise></app-reportbooklentdatewise>
+
+    
+
+  
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title><br>      Book Wise   <br>  <br>      </mat-panel-title><br>  
+        <mat-panel-description>
+            Book Wise lent Report
+          <mat-icon>date_range</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+        <app-reportbooklentbookwise></app-reportbooklentbookwise>
+  
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">End</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title><br>      Rack List    <br>  <br>      </mat-panel-title><br>  
+        <mat-panel-description>
+          Rack List  Report
+          <mat-icon>date_range</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+        <app-rack-list-report></app-rack-list-report>
+  
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">End</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  
+
+  </mat-accordion>
+  

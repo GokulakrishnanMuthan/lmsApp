@@ -1,0 +1,35 @@
+<div class="main-div">
+<mat-card >
+
+        <mat-toolbar color="primary" fxLayout="row">
+        <span>LMS Login</span>
+      </mat-toolbar>
+      
+    
+    <br>
+     <mat-card-content>
+        <form class="example-form" [formGroup]="loginform" (ngSubmit)="proceedLogin()">
+            <mat-form-field class="example-full-width">
+              <mat-icon matPrefix color="primary">people</mat-icon>
+              <mat-label>Username</mat-label>
+              
+              <input matInput formControlName="name" >
+              
+            </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-icon matPrefix color="primary">password</mat-icon>
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password" >
+              </mat-form-field>
+
+              <div>
+                <button mat-raised-button color="primary">Login</button>&nbsp;&nbsp;&nbsp;
+                
+              </div>
+          </form>
+
+    </mat-card-content>
+    
+  </mat-card>
+
+</div>

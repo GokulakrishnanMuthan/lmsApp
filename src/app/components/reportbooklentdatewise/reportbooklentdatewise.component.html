@@ -1,0 +1,76 @@
+
+<form class="example-form" [formGroup]="campaignOne" >
+
+<mat-form-field>
+  <mat-label>From Date</mat-label>
+  <input matInput [matDatepicker]="picker" formControlName="start" >
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+&nbsp;&nbsp;
+<mat-form-field>
+  <mat-label>To Date</mat-label>
+  <input matInput [matDatepicker]="picker1" formControlName="end" >
+  <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+&nbsp;&nbsp;
+  <button mat-raised-button color="primary" (click)="generateReport()">Search</button>
+</form>
+  
+        
+<div class="mat-elevation-z8" #TABLE>
+    
+    <table mat-table matSort [dataSource]="dataSource" #table>
+      
+          <!-- username Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="devoteName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Devote Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.devoteName}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="phoneNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone No </th>
+        <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="roomNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Room No </th>
+        <td mat-cell *matCellDef="let element"> {{element.roomNo}} </td>
+      </ng-container>
+      <ng-container matColumnDef="issueDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Issue Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.issueDate}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="returnDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Due Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.returnDate}} </td>
+      </ng-container>
+      <ng-container matColumnDef="bookReturnDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Return Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.bookReturnDate}} </td>
+      </ng-container>
+     
+  
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10,50,100,200,500,1000]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div><br><br> 
+  <div><button mat-raised-button color="primary" (click)="ExportTOExcel()">Export as Excel</button></div>
+
+

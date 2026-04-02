@@ -1,0 +1,81 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Book Lent List</span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="accent" (click)="newissue()">
+      New Book Lent
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card>
+
+    <mat-card-content>
+
+  <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Name" #input>
+    </mat-form-field>
+  
+  <div class="mat-elevation-z8">
+      
+      <table mat-table matSort [dataSource]="dataSource">
+    
+        <!-- username Column -->
+       
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name" class="make-alert">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        
+        
+        <!-- Name Column -->
+        <ng-container matColumnDef="issueDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Issue Date </th>
+          <td mat-cell *matCellDef="let element"> {{element.issueDate}} </td>
+        </ng-container>
+        
+        <!-- Name Column -->
+        <ng-container matColumnDef="expireDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date</th>
+          <td mat-cell *matCellDef="let element"> {{element.expireDate}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+          <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Room No </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element"> 
+              <mat-icon color="primary" (click)="returnBook(element)">view_list</mat-icon>&nbsp;&nbsp;
+              
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row [ngClass]="{'make-alert': row.overDue == 1}" *matRowDef="let row; columns: displayedColumns;" ></tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 20,50,100]"
+                     showFirstLastButtons
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+  </mat-card>

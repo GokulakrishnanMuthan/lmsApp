@@ -1,0 +1,24 @@
+/* Structure */
+table {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+    
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  
+  
+.make-alert {
+  background-color: #FE5442;
+}
+
+tr.make-alert:hover {
+  background-color: #FE5442;
+  cursor: pointer;
+}

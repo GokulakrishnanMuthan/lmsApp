@@ -1,0 +1,238 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Book Master</span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="accent" (click)="newbook()">
+      New Book
+    </button>
+   
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card>
+    
+    <mat-card-content>
+
+     
+      <form [formGroup]="searchForm" > 
+            
+        <table class="searchfields">
+          <tbody>
+            <tr>
+              <td style="width: 100px !important;">
+                <mat-form-field class="search__form_field" appearance="outline" style="width: 100px !important;">
+                  <mat-label>Access No</mat-label>
+                  <input type="text"
+                        aria-label="Access No"
+                        matInput
+                        formControlName="accessNoSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>  
+              </td>
+              <td style="width: 150px !important;">
+                <mat-form-field class="search__form_field" appearance="outline" style="width: 150px !important;">
+                  <mat-label>Rack </mat-label>
+                  <input type="text"
+                        aria-label="Rack"
+                        matInput
+                        formControlName="rackSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+              <td style="width: 150px !important;">
+                <mat-form-field class="search__form_field" appearance="outline" style="width: 150px !important;">
+                  <mat-label>Row  </mat-label>
+                  <input type="text"
+                        aria-label="Row"
+                        matInput
+                        formControlName="rowSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Title Search</mat-label>
+                  <input type="text"
+                        aria-label="Book Search"
+                        matInput
+                        formControlName="bookNameSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>  
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Author Search </mat-label>
+                  <input type="text"
+                        aria-label="Author Search"
+                        matInput
+                        formControlName="authorSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+           <!--    <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Publisher Search </mat-label>
+                  <input type="text"
+                        aria-label="Publisher Search"
+                        matInput
+                        formControlName="publisherSearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>
+             <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Category Search </mat-label>
+                  <input type="text"
+                        aria-label="Category Search"
+                        matInput
+                        formControlName="categorySearch"
+                        (keyup)="applyFilter()"
+                  >
+                </mat-form-field>                
+              </td>  -->
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>language </mat-label>
+                  <!-- <input type="text"
+                        aria-label="languageSearch"
+                        matInput
+                        formControlName="languageSearch"
+                        (keyup)="applyFilter()"
+                  > -->
+                  <mat-select formControlName="languageSearch" (ngModelChange)="applyFilter()">
+                    <mat-option *ngFor="let language of languages" [value]="language">
+                      {{language}}
+                    </mat-option>
+                  </mat-select>
+
+                </mat-form-field>                
+              </td>
+              <td>
+                <mat-form-field class="search__form_field" appearance="outline">
+                  <mat-label>Book Status </mat-label>
+                  <!-- <input type="text"
+                        aria-label="languageSearch"
+                        matInput
+                        formControlName="languageSearch"
+                        (keyup)="applyFilter()"
+                  > -->
+                  <mat-select formControlName="bookStatusSearch" (ngModelChange)="applyFilter()">
+                    <mat-option *ngFor="let bookStatus of bookStatus" [value]="bookStatus">
+                      {{bookStatus}}
+                    </mat-option>
+                  </mat-select>
+
+                </mat-form-field>                
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
+ </form>
+
+<div class="mat-elevation-z8">
+
+  
+    <table mat-table matSort [dataSource]="dataSource">
+
+      <ng-container matColumnDef="accessno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <td mat-cell *matCellDef="let element"> {{element.accessno}} </td>
+      </ng-container>
+
+
+       <ng-container matColumnDef="rack_no">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Rack</th>
+        <td mat-cell *matCellDef="let element"> {{element.rack_no}} </td>
+      </ng-container>
+
+       
+       <ng-container matColumnDef="row">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Row</th>
+        <td mat-cell *matCellDef="let element"> {{element.row}} </td>
+      </ng-container>
+
+      
+       <ng-container matColumnDef="language">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Lang </th>
+        <td mat-cell *matCellDef="let element"> {{element.language}} </td>
+      </ng-container>
+
+      
+       <!-- <ng-container matColumnDef="topic">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+        <td mat-cell *matCellDef="let element"> {{element.topic}} </td>
+      </ng-container> -->
+    
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="book_status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element"> {{element.book_status}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="book_condition">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Condition</th>
+        <td mat-cell *matCellDef="let element"> {{element.book_condition }} </td>
+      </ng-container>
+
+    
+  
+    
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
+        <td mat-cell *matCellDef="let element"> {{element.author}} </td>
+      </ng-container>
+      <ng-container matColumnDef="publisher">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Publisher </th>
+        <td mat-cell *matCellDef="let element"> {{element.publisher}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="publisheraddress">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Publisher Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.publisheraddress}} </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="remarks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks </th>
+        <td mat-cell *matCellDef="let element"> {{element.remarks}} </td>
+      </ng-container> -->
+     
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element"> 
+           
+            <mat-icon color="primary" (click)="updateBook(element.id)" matTooltip="Edit"  *ngIf="showActionItems()">edit</mat-icon>&nbsp;&nbsp;
+            <!-- <mat-icon color="primary" (click)="copyBook(element.id)" matTooltip="Copy">file_copy</mat-icon>&nbsp;&nbsp; -->
+            <mat-icon color="primary" (click)="printBarCode(element.id)" matTooltip="Print"  *ngIf="showActionItems()">print</mat-icon>&nbsp;&nbsp;
+          
+         
+        </td>
+      </ng-container>
+  
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+ 
+    <mat-paginator [pageSizeOptions]="[5, 10,50,100,200,500,1000]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+  
+  </div> 
+</mat-card-content>
+
+
+
+</mat-card>

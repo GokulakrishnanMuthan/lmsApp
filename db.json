@@ -1,0 +1,232 @@
+{
+  "user": [
+    {
+      "id": "admin",
+      "name": "Admin",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "role": "admin",
+      "isActive": true
+    },
+    {
+      "id": "admin1",
+      "name": "Admin",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "role": "staff",
+      "isActive": true
+    },
+    {
+      "id": "admin11",
+      "name": "Admin",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "role": "admin",
+      "isActive": true
+    },
+    {
+      "id": "admin21",
+      "name": "test",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "gender": "male",
+      "role": "admin",
+      "isActive": true
+    },
+    {
+      "id": "admin2",
+      "name": "derfff",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "gender": "male",
+      "role": "admin",
+      "isActive": true
+    },
+    {
+      "id": "admin22",
+      "name": "Admin",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "gender": "male",
+      "role": "admin",
+      "isActive": true
+    },
+    {
+      "id": "admin33",
+      "name": "zzzz",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "gender": "male",
+      "role": "admin",
+      "isActive": true
+    },
+    {
+      "id": "admin331",
+      "name": "Admin",
+      "password": "Admin@123",
+      "email": "admin@gmail.com",
+      "gender": "male",
+      "role": "admin",
+      "isActive": true
+    }
+  ],
+  "role": [
+    {
+      "code": "staff",
+      "name": "Staff"
+    },
+    {
+      "code": "quality",
+      "name": "Quality"
+    },
+    {
+      "code": "admin",
+      "name": "Admin"
+    }
+  ],
+  "menu": [
+    {
+      "code": "user",
+      "name": "User"
+    },
+    {
+      "code": "book",
+      "name": "Book Master"
+    },
+    {
+      "code": "devote",
+      "name": "Devote Master"
+    },
+    {
+      "code": "bookissue",
+      "name": "Book Issue"
+    }
+  ] , "roleaccess": [
+    {
+      "role": "admin",
+      "menu": "user",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":true
+    },{
+      "role": "admin",
+      "menu": "book",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":true
+    },{
+      "role": "admin",
+      "menu": "devote",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":true
+    },{
+      "role": "bookissue",
+      "menu": "book",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":true
+    },{
+      "role": "user",
+      "menu": "book",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":false
+    },{
+      "role": "user",
+      "menu": "devote",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":false
+    },{
+      "role": "user",
+      "menu": "book",
+      "haveedit":true,
+      "haveadd":true,
+      "havedelete":false
+    }
+  ],
+  "book": [
+    {
+      "title": "Ponniyin Selvan",
+      "isbn": "9788183451536",
+      "price": "500",
+      "author": "Kalki Krishnamurthy",
+      "publisher":"Mangala Noolagam",
+      "publisheraddress":"Madurai"
+    }, {
+      "title": "Parthiban Kanavu",
+      "isbn": "9788183451536",
+      "price": "4500",
+      "author": "Kalki Krishnamurthy",
+      "publisher":"Mangala Noolagam",
+      "publisheraddress":"Madurai"
+    }, {
+      "title": "Yavana Rani",
+      "isbn": "9788183451536",
+      "price": "2000",
+      "author": "Kalki Krishnamurthy",
+      "publisher":"Mangala Noolagam",
+      "publisheraddress":"Madurai"
+    }, {
+      "title": "Meendum Jeano",
+      "isbn": "9788183451536",
+      "price": "600",
+      "author": "Kalki Krishnamurthy",
+      "publisher":"Mangala Noolagam",
+      "publisheraddress":"Madurai"
+    }, {
+      "title": "Solaimalai Ilavarasi",
+      "isbn": "9788183451536",
+      "price": "780",
+      "author": "Kalki Krishnamurthy",
+      "publisher":"Mangala Noolagam",
+      "publisheraddress":"Madurai"
+    }, {
+      "title": "Kadal Pura",
+      "isbn": "9788183451536",
+      "price": "400",
+      "author": "Kalki Krishnamurthy",
+      "publisher":"Mangala Noolagam",
+      "publisheraddress":"Madurai"
+    }
+  ],"devote": [
+    {
+      "id": "1",
+      "name": "test devote",
+      "email": "devote@gmail.com",
+      "phone": "7889455656",
+      "address": "chennai"
+    },{
+      "id": "2",
+      "name": "abc ",
+      "email": "abc@gmail.com",
+      "phone": "859674596",
+      "address": "cbe"
+    },{
+      "id": "3",
+      "name": "dersss",
+      "email": "dersss@gmail.com",
+      "phone": "9685748596",
+      "address": "salem"
+    },{
+      "id": "4",
+      "name": "ertert devote",
+      "email": "ertert@gmail.com",
+      "phone": "859232323",
+      "address": "cbe"
+    },{
+      "id": "5",
+      "name": "tytyty devote",
+      "email": "tytyty@gmail.com",
+      "phone": "97779455656",
+      "address": "erode"
+    },{
+      "id": "6",
+      "name": "RTRTRT devote",
+      "email": "RTRTRT@gmail.com",
+      "phone": "6889455656",
+      "address": "BANGALORE"
+    }
+  ]
+}
