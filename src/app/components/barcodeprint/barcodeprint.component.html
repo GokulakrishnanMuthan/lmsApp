@@ -1,7 +1,6 @@
 <h1 mat-dialog-title>Bar Code Print</h1>
-<img [src]="imagePath" id="barcodeprint"/>
+<img [src]="imagePath" id="barcodeprint" style="max-width:100%;"/>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>
- 
-  <button mat-raised-button color="primary">Print</button>
+  <button mat-raised-button color="primary" (click)="printBarcode()">Print</button>
 </div>

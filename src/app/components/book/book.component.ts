@@ -217,12 +217,18 @@ searchFormInit() {
   
  }
 
-  printBarCode(id:any){
-    this.service.printBarCode(id).subscribe( (res:any)=>{
-      const unsafeImg = URL.createObjectURL(res);
-      this.dialog.open(BarcodeprintComponent,{ data:this.sanitizer.bypassSecurityTrustUrl(unsafeImg)});
-    });
-    
-  }
+ printBarCode(id: any) {
+  console.log("id-->" + id);
+  this.service.printBarCode(id).subscribe((res: any) => {
+    const unsafeImg = URL.createObjectURL(res);
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
 
+    this.dialog.open(BarcodeprintComponent, {
+      data: {
+        bookId: id,
+        image: safeImg
+      }
+    });
+  });
+}
 }
