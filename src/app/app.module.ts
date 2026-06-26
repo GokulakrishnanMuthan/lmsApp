@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -16,7 +16,6 @@ import { UpdatepopupComponent } from './components/updatepopup/updatepopup.compo
 import { BookComponent } from './components/book/book.component';
 import { DeleteDialogComponent, DevoteComponent } from './components/devote/devote.component';
 import { BookissueComponent } from './components/bookissue/bookissue.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NewbookissueComponent } from './components/newbookissue/newbookissue.component';
 import { NewbookComponent } from './components/newbook/newbook.component';
 import { FormsModule } from '@angular/forms';
@@ -37,49 +36,45 @@ import { RackListReportComponent } from './components/rack-list-report/rack-list
 import { NewdevoteComponent } from './components/newdevote/newdevote.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ScanInputDirective } from './scanner/scan-input.directive';
+import { BarcodeScannerDialogComponent } from './scanner/barcode-scanner-dialog.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    DashboardComponent,
-    RegisterComponent,
-    UserlistComponent,
-    UpdatepopupComponent,
-    BookComponent,
-    DevoteComponent,
-    BookissueComponent,
-    NewbookissueComponent,
-    NewbookComponent,
-    RetunbookComponent,
-    BookwiseissuelistComponent,
-    ReportComponent,
-    ReportbooklentdatewiseComponent,
-    ReportbooklentbookwiseComponent,
-    BarcodeprintComponent,
-    RackListComponent,
-    RackEditComponent,
-    RackListReportComponent,
-    NewdevoteComponent,
-    SettingsComponent,
- DeleteDialogComponent  
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    FlexLayoutModule,
-    FormsModule,
-    MatDialogModule,
-    StoreModule.forRoot({ book: reducer })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        DashboardComponent,
+        RegisterComponent,
+        UserlistComponent,
+        UpdatepopupComponent,
+        BookComponent,
+        DevoteComponent,
+        BookissueComponent,
+        NewbookissueComponent,
+        NewbookComponent,
+        RetunbookComponent,
+        BookwiseissuelistComponent,
+        ReportComponent,
+        ReportbooklentdatewiseComponent,
+        ReportbooklentbookwiseComponent,
+        BarcodeprintComponent,
+        RackListComponent,
+        RackEditComponent,
+        RackListReportComponent,
+        NewdevoteComponent,
+        SettingsComponent,
+        DeleteDialogComponent,
+        ScanInputDirective,
+        BarcodeScannerDialogComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        ToastrModule.forRoot(),
+        FormsModule,
+        MatDialogModule,
+        StoreModule.forRoot({ book: reducer })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { 
  
 }

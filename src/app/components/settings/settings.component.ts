@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Validators, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,11 +8,14 @@ import { AuthService } from 'src/app/service/auth.service';
 import { FileUploadServiceService } from 'src/app/service/file-upload-service.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.css'],
+    standalone: false
 })
 export class SettingsComponent {
+
+ private destroyRef = inject(DestroyRef);
 
  currentYear: any;
  showForm = false;
@@ -41,7 +45,7 @@ export class SettingsComponent {
   }
 
   loadCurrentYear() {
-    this.service.getCurrentYear().subscribe({
+    this.service.getCurrentYear().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => (this.currentYear = res),
       error: () => (this.currentYear = null),
     });
@@ -51,7 +55,7 @@ export class SettingsComponent {
    saveNextYear(){
          if (this.yearForm.valid) {
           const { fromDate, toDate } = this.yearForm.value;
-          this.service.addNextYear(fromDate!, toDate!).subscribe({
+          this.service.addNextYear(fromDate!, toDate!).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: () => {
               this.toastr.success('Next academic year added');
               this.loadCurrentYear();

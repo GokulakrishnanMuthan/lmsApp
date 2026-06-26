@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Scan barcode</h2>
+<mat-dialog-content>
+  <div [id]="readerId" class="barcode-reader"></div>
+  @if (error) {
+    <p class="barcode-error">{{ error }}</p>
+  }
+  @if (!error) {
+    <p class="barcode-hint">Point the camera at the barcode.</p>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+</mat-dialog-actions>

@@ -1,72 +1,74 @@
 <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>Search Book</mat-label>
-    <input type="text" placeholder="Search Book Name" aria-label="Search Book Name" matInput [formControl]="myControl" [matAutocomplete]="auto">
+  <mat-label>Search Book</mat-label>
+  <input type="text" placeholder="Search Book Name" aria-label="Search Book Name" matInput [formControl]="myControl" [matAutocomplete]="auto">
 
-      <mat-autocomplete (optionSelected)="selected($event)" #auto="matAutocomplete" [displayWith]="displayFn">
+  <mat-autocomplete (optionSelected)="selected($event)" #auto="matAutocomplete" [displayWith]="displayFn">
 
-      <mat-option  *ngFor="let book of filteredOptions  | async" [value]="book">
-        {{ book.title }}  - {{ book.language }}  - {{ book.author }} -  {{ book.publisher }} 
+    @for (book of filteredOptions  | async; track book) {
+      <mat-option  [value]="book">
+        {{ book.title }}  - {{ book.language }}  - {{ book.author }} -  {{ book.publisher }}
       </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+    }
+  </mat-autocomplete>
+</mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="generateReport()">Search</button>
-  <br><br> 
+<button mat-raised-button color="primary" (click)="generateReport()">Search</button>
+<br><br>
 
-  
-        
+
+
 <div class="mat-elevation-z8" #TABLE>
-    
-    <table mat-table matSort [dataSource]="dataSource" #table>
-      
-          <!-- username Column -->
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-      </ng-container>
-  
-      <!-- Name Column -->
-      <ng-container matColumnDef="devoteName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Devote Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.devoteName}} </td>
-      </ng-container>
-  
-      <!-- Weight Column -->
-      <ng-container matColumnDef="phoneNo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone No </th>
-        <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
-      </ng-container>
-  
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="roomNo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Room No </th>
-        <td mat-cell *matCellDef="let element"> {{element.roomNo}} </td>
-      </ng-container>
-      <ng-container matColumnDef="issueDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Issue Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.issueDate}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="returnDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Due Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.returnDate}} </td>
-      </ng-container>
-      <ng-container matColumnDef="bookReturnDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Return Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.bookReturnDate}} </td>
-      </ng-container>
-     
-  
-      
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10,50,100,200,500,1000]"
-                   showFirstLastButtons
-                   aria-label="Select page of periodic elements">
-    </mat-paginator>
-  </div><br><br> 
-  <div><button mat-raised-button color="primary" (click)="ExportTOExcel()">Export as Excel</button></div>
+  <table mat-table matSort [dataSource]="dataSource" #table>
+
+    <!-- username Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="devoteName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Devote Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.devoteName}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="phoneNo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone No </th>
+      <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="roomNo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Room No </th>
+      <td mat-cell *matCellDef="let element"> {{element.roomNo}} </td>
+    </ng-container>
+    <ng-container matColumnDef="issueDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Issue Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.issueDate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="returnDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Due Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.returnDate}} </td>
+    </ng-container>
+    <ng-container matColumnDef="bookReturnDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Book Return Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.bookReturnDate}} </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10,50,100,200,500,1000]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div><br><br>
+<div><button mat-raised-button color="primary" (click)="ExportTOExcel()">Export as Excel</button></div>
 
 

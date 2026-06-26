@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild,Input ,ElementRef} from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, OnInit, ViewChild,Input ,ElementRef} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,13 +11,17 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FileUploadServiceService } from 'src/app/service/file-upload-service.service';
+import { ScannerService } from 'src/app/scanner/scanner.service';
 
 @Component({
-  selector: 'app-newbook',
-  templateUrl: './newbook.component.html',
-  styleUrls: ['./newbook.component.css']
+    selector: 'app-newbook',
+    templateUrl: './newbook.component.html',
+    styleUrls: ['./newbook.component.css'],
+    standalone: false
 })
 export class NewbookComponent implements OnInit {
+
+  private destroyRef = inject(DestroyRef);
 
   bookId!: number;
   editData:any;
@@ -57,7 +62,8 @@ export class NewbookComponent implements OnInit {
   progress = 0;
   message = '';
   constructor(private buider: FormBuilder,private toastr: ToastrService,
-    private service: AuthService, private router: Router,public dialog: MatDialog,private activatedRoute: ActivatedRoute,private uploadService: FileUploadServiceService){  
+    private service: AuthService, private router: Router,public dialog: MatDialog,private activatedRoute: ActivatedRoute,private uploadService: FileUploadServiceService,
+    private scanner: ScannerService){
    //this.loadBooks();
    this.languages=['TAMIL','ENGLISH','HINDI','SANSKRIT','MALAYALAM','KANNADA','TELUGU','SPANISH','GERMAN','PORTUGAL','ENGLISH HINDI','SANKRIT','SANSKRIT HINDI'
    ,'SANKRIT ENGLISH','GUJARATI','MARATHI','SANSKRIT/ HINDI'];
@@ -68,8 +74,8 @@ export class NewbookComponent implements OnInit {
  }
   ngOnInit(): void {
    // console.log("bookId-->"+JSON.stringify(this.activatedRoute.queryParams)); 
-    this.activatedRoute.queryParams.subscribe((params) => {
-      //console.log(params['bookid']); 
+    this.activatedRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      //console.log(params['bookid']);
         if(params['bookid'] != undefined){
           this.getBookbyId(params['bookid']);
           this.bookDetails=params['status'];
@@ -78,7 +84,7 @@ export class NewbookComponent implements OnInit {
   }
   getBookbyId(id:any){
     if(id !=null && id !=""){
-      this.service.getBookById(id).subscribe( res=>{
+      this.service.getBookById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
         this.editData=res;
      //   console.log("editData-->"+JSON.stringify(this.editData));
   
@@ -120,11 +126,26 @@ export class NewbookComponent implements OnInit {
   this.router.navigate(['book']);
  }
 
+ /** Handles a scanned ISBN (hardware wedge via appScanInput, or camera). */
+ onIsbnScan(code: string){
+  const isbn = this.scanner.normalize(code);
+  this.bookFrom.patchValue({ isbn });
+  if(!this.scanner.isValidIsbn(isbn)){
+    this.toastr.warning('Scanned value is not a valid ISBN');
+  }
+ }
+
+ /** Opens the camera scanner and fills the ISBN field with the result. */
+ async scanIsbn(){
+  const code = await this.scanner.openCamera();
+  if(code){ this.onIsbnScan(code); }
+ }
+
  saveBook(){
   // console.log("bookFrom-->"+JSON.stringify(this.bookFrom.value));
   // console.log("bookFrom-->"+this.bookFrom.valid);
     if(this.bookFrom.valid){
-        this.service.saveBook(this.bookFrom.value).subscribe( res=>{
+        this.service.saveBook(this.bookFrom.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
         this.toastr.success("Registered Successfully.");
         this.router.navigate(['book']);
       })

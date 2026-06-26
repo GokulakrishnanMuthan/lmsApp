@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators,FormControl, FormGroup, } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -15,14 +16,18 @@ import { rowSearchFilter, rackSearchFilter,accessNoSearchFilter,titleSearchFilte
 import {AppState} from '../../ngrx/book.reducer';
 import {BookState} from '../../ngrx/book.model';
 import { BarcodeprintComponent } from '../barcodeprint/barcodeprint.component';
+import { ScannerService } from 'src/app/scanner/scanner.service';
 
 @Component({
-  selector: 'app-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+    selector: 'app-book',
+    templateUrl: './book.component.html',
+    styleUrls: ['./book.component.css'],
+    standalone: false
 })
 export class BookComponent {
-  
+
+ private destroyRef = inject(DestroyRef);
+
  bookList:any;
  public dataSource: MatTableDataSource<Book>;
  displayedColumns: string[] = ['accessno','rack_no','row','language','title','book_status','book_condition','author', 'publisher','action'];
@@ -48,7 +53,8 @@ export class BookComponent {
  userRole:any;
 
  constructor(private buider: FormBuilder,private toastr: ToastrService,private service: AuthService, private router: Router,
-  public dialog: MatDialog,private state: State<AppState>,private store: Store,private sanitizer: DomSanitizer){ 
+  public dialog: MatDialog,private state: State<AppState>,private store: Store,private sanitizer: DomSanitizer,
+  private scanner: ScannerService){
     
     this.languages=['','TAMIL','ENGLISH','HINDI','SANSKRIT','MALAYALAM','KANNADA','TELUGU','SPANISH','GERMAN','PORTUGAL','ENGLISH HINDI','SANKRIT','SANSKRIT HINDI'
     ,'SANKRIT ENGLISH','GUJARATI','MARATHI','SANSKRIT/ HINDI'];
@@ -89,7 +95,7 @@ searchFormInit() {
 }
 
  loadBooks(){
-   this.service.getAllBooks().subscribe( res=>{
+   this.service.getAllBooks().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
        this.bookList=res;
        this.dataSource=new MatTableDataSource(this.bookList);
        this.dataSource.filterPredicate = this.getFilterPredicate();
@@ -198,6 +204,18 @@ searchFormInit() {
 //  }  
 
  
+ /** Handles a scanned access number by driving the existing access-no filter. */
+ onAccessnoScan(code: string){
+  this.searchForm.get('accessNoSearch')?.setValue(this.scanner.normalize(code));
+  this.applyFilter();
+ }
+
+ /** Opens the camera scanner and filters the list by the scanned access number. */
+ async scanBook(){
+  const code = await this.scanner.openCamera();
+  if(code){ this.onAccessnoScan(code); }
+ }
+
  newbook(){
   this.router.navigate(['newbook']);
  }
@@ -219,7 +237,7 @@ searchFormInit() {
 
  printBarCode(id: any) {
   console.log("id-->" + id);
-  this.service.printBarCode(id).subscribe((res: any) => {
+  this.service.printBarCode(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res: any) => {
     const unsafeImg = URL.createObjectURL(res);
     const safeImg = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
 

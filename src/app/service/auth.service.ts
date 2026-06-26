@@ -111,6 +111,11 @@ export class AuthService {
     return this.http.get(this.apiUrl+"returnBook/"+devoteId+"/"+issueDate);
   }
 
+  // Look up the open issue for a single copy by its access number (barcode scan).
+  getReturnByAccessno(accessno:any): Observable<any>{
+    return this.http.get<any>(this.apiUrl+"returnByAccessno/"+accessno);
+  }
+
 
   
   returnBook(bookData:any): Observable<any> {

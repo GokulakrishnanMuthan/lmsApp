@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, ElementRef, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,9 +14,10 @@ import * as XLSX from 'xlsx';
 
 
 @Component({
-  selector: 'app-rack-list-report',
-  templateUrl: './rack-list-report.component.html',
-  styleUrls: ['./rack-list-report.component.css']
+    selector: 'app-rack-list-report',
+    templateUrl: './rack-list-report.component.html',
+    styleUrls: ['./rack-list-report.component.css'],
+    standalone: false
 })
 export class RackListReportComponent {
   myControl = new FormControl();
@@ -32,6 +34,8 @@ export class RackListReportComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(private toastr: ToastrService,private service: AuthService){  }
 
 
@@ -40,7 +44,7 @@ export class RackListReportComponent {
   ngOnInit() {
 
     this.myControl = new FormControl();
-      this.service.getAllRackListwithBookCount().subscribe( (res:any) =>{
+      this.service.getAllRackListwithBookCount().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( (res:any) =>{
          
          if(res.isValid){
           this.rackList = res.racksList;

@@ -1,15 +1,15 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { 
-    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+body {
+    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
     background-image: url("assets/Bckground.png");
-    background-position: center; 
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import '~node_modules/ngx-toastr/toastr.css';
 
 mat-icon:hover{
     cursor: pointer;

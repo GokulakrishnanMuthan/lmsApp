@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -11,13 +12,15 @@ import { UpdatepopupComponent } from '../updatepopup/updatepopup.component';
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-bookwiseissuelist',
-  templateUrl: './bookwiseissuelist.component.html',
-  styleUrls: ['./bookwiseissuelist.component.css']
+    selector: 'app-bookwiseissuelist',
+    templateUrl: './bookwiseissuelist.component.html',
+    styleUrls: ['./bookwiseissuelist.component.css'],
+    standalone: false
 })
 export class BookwiseissuelistComponent {
 
-   
+  private destroyRef = inject(DestroyRef);
+
   constructor(private buider: FormBuilder,private toastr: ToastrService,
     private service: AuthService, private router: Router,public dialog: MatDialog){  
    this.loadUsers();
@@ -32,7 +35,7 @@ export class BookwiseissuelistComponent {
 
  loadUsers(){
  
-  this.service.getAllBookwiseIssuesList().subscribe( res=>{
+  this.service.getAllBookwiseIssuesList().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
     this.userList=res;
    // console.log("res-->"+JSON.stringify(res))
     this.dataSource=new MatTableDataSource(this.userList);

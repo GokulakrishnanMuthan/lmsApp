@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,13 +15,15 @@ import { AuthService } from 'src/app/service/auth.service';
 import { UpdatepopupComponent } from '../updatepopup/updatepopup.component';
 
 @Component({
-  selector: 'app-rack-list',
-  templateUrl: './rack-list.component.html',
-  styleUrls: ['./rack-list.component.css']
+    selector: 'app-rack-list',
+    templateUrl: './rack-list.component.html',
+    styleUrls: ['./rack-list.component.css'],
+    standalone: false
 })
 export class RackListComponent {
 
-   
+  private destroyRef = inject(DestroyRef);
+
   constructor(private buider: FormBuilder,private toastr: ToastrService,
     private service: AuthService, private router: Router,public dialog: MatDialog){  
    this.loadUsers();
@@ -35,7 +38,7 @@ export class RackListComponent {
 
  loadUsers(){
  
-  this.service.getAllRackList().subscribe( (res: any) => {
+  this.service.getAllRackList().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( (res: any) => {
     
     if(res.isValid){
       this.racksList=res.racksList;

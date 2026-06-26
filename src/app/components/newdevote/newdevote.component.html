@@ -1,89 +1,93 @@
 <mat-card>
-    <mat-toolbar color="primary">
-        <mat-toolbar-row>
-            <span>New Devotee</span>
-            <span class="example-spacer"></span>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>New Devotee</span>
+      <span class="example-spacer"></span>
 
-            <!-- <button mat-raised-button color="accent">Save</button>&nbsp;&nbsp;
+      <!-- <button mat-raised-button color="accent">Save</button>&nbsp;&nbsp;
       <button mat-raised-button color="primary" (click)="bookMaster()">Back</button> -->
-        </mat-toolbar-row>
-    </mat-toolbar>
-    <br />
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <br />
 
-    <form class="example-form" [formGroup]="devoteeForm" (ngSubmit)="saveDevotee()">
-        <table class="example-full-width" cellspacing="0">
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Devotee Name</mat-label>
-                        <input matInput formControlName="name" />
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Phone Number</mat-label>
-                        <input matInput formControlName="phone" />
-                        <mat-error *ngIf="devoteeForm.get('phone')?.hasError('required')">
-                            Phone number is required
-                        </mat-error>
-                        <mat-error *ngIf="devoteeForm.get('phone')?.hasError('pattern')">
-                            Phone number must be exactly 10 digits
-                        </mat-error>
-                    </mat-form-field>
+  <form class="example-form" [formGroup]="devoteeForm" (ngSubmit)="saveDevotee()">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Devotee Name</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" />
+            @if (devoteeForm.get('phone')?.hasError('required')) {
+              <mat-error>
+                Phone number is required
+              </mat-error>
+            }
+            @if (devoteeForm.get('phone')?.hasError('pattern')) {
+              <mat-error>
+                Phone number must be exactly 10 digits
+              </mat-error>
+            }
+          </mat-form-field>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="email" />
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Room No</mat-label>
-                        <input matInput formControlName="address" />
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr></tr>
-            <tr>
-
-
-
-
-                <td>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Year</mat-label>
-                        <input matInput formControlName="year" />
-                    </mat-form-field>
-                </td>
-
-            </tr>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Room No</mat-label>
+            <input matInput formControlName="address" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
 
 
-            <tr>
-                <td>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!devoteeForm.valid">
-                        Save
-                    </button>
-                    &nbsp;&nbsp;
-                    <button mat-raised-button color="warn" type="button" (click)="devoteeMaster()">
-                        Back
-                    </button>
-                </td>
-            </tr>
-
-        </table>
 
 
-    </form>
-    <br><br><br>
+        <td>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Year</mat-label>
+            <input matInput formControlName="year" />
+          </mat-form-field>
+        </td>
+
+      </tr>
+
+
+      <tr>
+        <td>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!devoteeForm.valid">
+            Save
+          </button>
+          &nbsp;&nbsp;
+          <button mat-raised-button color="warn" type="button" (click)="devoteeMaster()">
+            Back
+          </button>
+        </td>
+      </tr>
+
+    </table>
+
+
+  </form>
+  <br><br><br>
 
 
 

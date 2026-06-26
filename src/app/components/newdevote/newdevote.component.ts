@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,11 +8,14 @@ import { AuthService } from 'src/app/service/auth.service';
 import { FileUploadServiceService } from 'src/app/service/file-upload-service.service';
 
 @Component({
-  selector: 'app-newdevote',
-  templateUrl: './newdevote.component.html',
-  styleUrls: ['./newdevote.component.css']
+    selector: 'app-newdevote',
+    templateUrl: './newdevote.component.html',
+    styleUrls: ['./newdevote.component.css'],
+    standalone: false
 })
 export class NewdevoteComponent {
+
+  private destroyRef = inject(DestroyRef);
 
   academicYear: string = '';
   
@@ -43,7 +47,7 @@ constructor(
 
 
 getAcademicYear(): void {
-  this.service.getAcademicYear().subscribe({
+  this.service.getAcademicYear().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
     next: (res: string) => {
       this.academicYear = res;
       this.devoteeForm.patchValue({ year: this.academicYear });
@@ -64,7 +68,7 @@ getAcademicYear(): void {
       return;
     }
 
-    this.service.saveDevotee(this.devoteeForm.value).subscribe({
+    this.service.saveDevotee(this.devoteeForm.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         this.toastr.success('Devotee saved successfully');
         this.router.navigate(['devote']);  // redirect to devotee master page

@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, ElementRef, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,9 +15,10 @@ import { AuthService } from 'src/app/service/auth.service';
 
 
 @Component({
-  selector: 'app-reportbooklentbookwise',
-  templateUrl: './reportbooklentbookwise.component.html',
-  styleUrls: ['./reportbooklentbookwise.component.css']
+    selector: 'app-reportbooklentbookwise',
+    templateUrl: './reportbooklentbookwise.component.html',
+    styleUrls: ['./reportbooklentbookwise.component.css'],
+    standalone: false
 })
 export class ReportbooklentbookwiseComponent {
   myControl = new FormControl();
@@ -33,6 +35,8 @@ export class ReportbooklentbookwiseComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(private toastr: ToastrService,private service: AuthService){  }
 
 
@@ -41,7 +45,7 @@ export class ReportbooklentbookwiseComponent {
   ngOnInit() {
 
     this.myControl = new FormControl();
-      this.service.getAvailableBooks().subscribe( (res:Book[]) =>{
+      this.service.getAvailableBooks().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( (res:Book[]) =>{
          this.bookList = res;
          //console.log("-bookList->"+JSON.stringify(this.bookList[0]));
       });
@@ -82,7 +86,7 @@ export class ReportbooklentbookwiseComponent {
   // console.log("bookFrom-->"+this.campaignOne.valid);
    if(this.bookObj  !=null && this.bookObj !=undefined){
      //console.log("bookFrom-->"+JSON.stringify(this.campaignOne.value));
-     this.service.bookwiselentreport(this.bookObj.id).subscribe( res=>{
+     this.service.bookwiselentreport(this.bookObj.id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
        this.bookTableList=res;
      // console.log("res-->"+JSON.stringify(res.toLocaleString.length))
       if(res.toLocaleString.length == 0){

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, ViewChild, ElementRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -18,17 +19,20 @@ const year = today.getFullYear();
 
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css']
+    selector: 'app-report',
+    templateUrl: './report.component.html',
+    styleUrls: ['./report.component.css'],
+    standalone: false
 })
 export class ReportComponent {
 
   
   @ViewChild('TABLE') table: ElementRef;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(private buider: FormBuilder,private toastr: ToastrService,
-    private service: AuthService, private router: Router,public dialog: MatDialog,private dateAdapter: DateAdapter<Date>){  
+    private service: AuthService, private router: Router,public dialog: MatDialog,private dateAdapter: DateAdapter<Date>){
    this.loadBooks();
    this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
  }
@@ -73,7 +77,7 @@ searchFormInit() {
 }
 
  loadBooks(){
-   this.service.getAllBooks().subscribe( res=>{
+   this.service.getAllBooks().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
        this.bookList=res;
        this.bookListReport=res;
       // console.log("res-->"+JSON.stringify(this.bookList[0]))

@@ -1,0 +1,47 @@
+.printer-status {
+  display: flex;
+  align-items: center;
+  margin: 8px 0 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #f5f5f5;
+}
+
+.printer-status span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.printer-status .status-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+.printer-status .status-icon.ok {
+  color: #2e7d32;
+}
+
+.printer-status .status-icon.warn {
+  color: #ef6c00;
+}
+
+.printer-status.found {
+  background: #e8f5e9;
+}
+
+.printer-status.none,
+.printer-status.unavailable {
+  background: #fff3e0;
+}
+
+.status-icon.spin {
+  animation: status-spin 1s linear infinite;
+}
+
+@keyframes status-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

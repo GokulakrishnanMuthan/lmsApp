@@ -2,7 +2,8 @@ import {FormGroup, FormControl, FormsModule, ReactiveFormsModule, FormBuilder, V
 import { DateAdapter } from '@angular/material/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, ViewChild, ElementRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import {MatPaginator} from '@angular/material/paginator';
@@ -18,9 +19,10 @@ const year = today.getFullYear();
 
 
 @Component({
-  selector: 'app-reportbooklentdatewise',
-  templateUrl: './reportbooklentdatewise.component.html',
-  styleUrls: ['./reportbooklentdatewise.component.css']
+    selector: 'app-reportbooklentdatewise',
+    templateUrl: './reportbooklentdatewise.component.html',
+    styleUrls: ['./reportbooklentdatewise.component.css'],
+    standalone: false
 })
 export class ReportbooklentdatewiseComponent {
 
@@ -32,7 +34,7 @@ export class ReportbooklentdatewiseComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  
+  private destroyRef = inject(DestroyRef);
 
 
   constructor(private service: AuthService, private fb: FormBuilder,private dateAdapter: DateAdapter<Date>,private toastr: ToastrService,){  
@@ -64,7 +66,7 @@ ngOnInit() {
 
      // console.log("bookFrom start-->"+this.campaignOne.value.start.toLocaleDateString('en-GB'));
       //console.log("bookFrom end-->"+this.campaignOne.value.end.toLocaleDateString('en-GB'));
-      this.service.booklentdatewise(this.campaignOne.value.start.toLocaleDateString('en-GB'),this.campaignOne.value.end.toLocaleDateString('en-GB')).subscribe( res=>{
+      this.service.booklentdatewise(this.campaignOne.value.start.toLocaleDateString('en-GB'),this.campaignOne.value.end.toLocaleDateString('en-GB')).pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
         this.bookList=res;
        //console.log("res-->"+JSON.stringify(this.bookList[0]))
        this.dataSource=new MatTableDataSource(this.bookList);

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, Inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -9,11 +10,14 @@ import {MatSort} from '@angular/material/sort';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-devote',
-  templateUrl: './devote.component.html',
-  styleUrls: ['./devote.component.css']
+    selector: 'app-devote',
+    templateUrl: './devote.component.html',
+    styleUrls: ['./devote.component.css'],
+    standalone: false
 })
 export class DevoteComponent {
+
+  private destroyRef = inject(DestroyRef);
 
   constructor(private buider: FormBuilder,private toastr: ToastrService,
     private service: AuthService, private router: Router,public dialog: MatDialog){  
@@ -28,7 +32,7 @@ export class DevoteComponent {
 
 
  loadDevotes(){
-   this.service.getAllDevotes().subscribe( res=>{
+   this.service.getAllDevotes().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
        this.devoteList=res;
       // console.log("res-->"+JSON.stringify(res))
        this.dataSource=new MatTableDataSource(this.devoteList);
@@ -53,10 +57,10 @@ deleteDevotee(devotee: any) {
     data: devotee
   });
 
-  dialogRef.afterClosed().subscribe(result => {
+  dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(result => {
     if (result === 'confirm') {
-      
-      this.service.deleteDevotee(devotee.id).subscribe({
+
+      this.service.deleteDevotee(devotee.id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: () => {
           this.toastr.success('Devote deleted successfully');
           this.loadDevotes(); // refresh the table
@@ -74,8 +78,8 @@ deleteDevotee(devotee: any) {
 }
 
 @Component({
-  selector: 'app-delete-dialog',
-  template: `
+    selector: 'app-delete-dialog',
+    template: `
     <h2 mat-dialog-title>Confirm Delete</h2>
     <mat-dialog-content>
       Are you sure you want to delete <b>{{data.name}}</b>?
@@ -87,6 +91,7 @@ deleteDevotee(devotee: any) {
       </button>
     </mat-dialog-actions>
   `,
+    standalone: false
 })
 export class DeleteDialogComponent {
   constructor(

@@ -1,4 +1,5 @@
-import {Component, OnInit,AfterViewInit,  ViewChild } from '@angular/core';
+import {Component, OnInit,AfterViewInit,  ViewChild, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -15,16 +16,20 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { Book } from 'src/app/interfaces/book';
 import { Devote } from 'src/app/interfaces/devote';
+import { ScannerService } from 'src/app/scanner/scanner.service';
 
 
 
 @Component({
-  selector: 'app-newbookissue',
-  templateUrl: './newbookissue.component.html',
-  styleUrls: ['./newbookissue.component.css']
+    selector: 'app-newbookissue',
+    templateUrl: './newbookissue.component.html',
+    styleUrls: ['./newbookissue.component.css'],
+    standalone: false
 })
-export class NewbookissueComponent implements OnInit {
-  
+export class NewbookissueComponent implements OnInit, AfterViewInit {
+
+  private destroyRef = inject(DestroyRef);
+
   myControl = new FormControl();
   filteredOptions: Observable<Book[]>;
   bookList:Book[] = [];
@@ -36,12 +41,35 @@ export class NewbookissueComponent implements OnInit {
   devoteObj:any;
   devoteeList:any
 
+  scanField = '';
+
   constructor(private buider: FormBuilder,private toastr: ToastrService,
-    private service: AuthService, private router: Router,public dialog: MatDialog){  
-    
+    private service: AuthService, private router: Router,public dialog: MatDialog,
+    private scanner: ScannerService){
+
  }
 
- dataSource:any;
+ /** Handles a scanned access number: resolves the available book and adds it. */
+ onAccessnoScan(code: string){
+  const accessno = this.scanner.normalize(code);
+  this.scanField = '';
+  if(!accessno){ return; }
+  const book = this.bookList.find(b => (b.accessno ?? '').toString() === accessno);
+  if(!book){
+    this.toastr.warning('No available book with access no ' + accessno);
+    return;
+  }
+  this.bookObj = book;
+  this.addtoTable();
+ }
+
+ /** Opens the camera scanner and adds the matching book. */
+ async scanBook(){
+  const code = await this.scanner.openCamera();
+  if(code){ this.onAccessnoScan(code); }
+ }
+
+ dataSource = new MatTableDataSource<Book>([]);
  displayedColumns: string[] = ['title', 'language', 'author', 'publisher', 'year','action'];
  @ViewChild(MatPaginator) paginator!: MatPaginator;
  @ViewChild(MatSort) sort!: MatSort;
@@ -63,16 +91,20 @@ export class NewbookissueComponent implements OnInit {
 
     this.dutedateNow.setDate( this.dateNow.getDate() + 7 );
     this.myControl = new FormControl();
-      this.service.getAvailableBooks().subscribe( (res:Book[]) =>{
+      this.service.getAvailableBooks()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe( (res:Book[]) =>{
          this.bookList = res;
          //console.log("-bookList->"+JSON.stringify(this.bookList[0]));
       });
 
-      this.service.getAllDevotes().subscribe( (res:Devote[]) =>{
+      this.service.getAllDevotes()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe( (res:Devote[]) =>{
           //console.log("-devoteList->"+JSON.stringify(res));
           this.devoteeList = res;
       } );
-  
+
       this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -80,6 +112,11 @@ export class NewbookissueComponent implements OnInit {
         map(name => name ? this._filter(name) : this.bookList.slice())
       );
 
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   
@@ -117,9 +154,7 @@ selected(event: MatAutocompleteSelectedEvent): void {
      
     //  console.log("-bookObj->"+JSON.stringify(this.bookObj));
       this.issueBookList.push(this.bookObj);
-      this.dataSource=new MatTableDataSource(this.issueBookList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.data = this.issueBookList;
       this.myControl.reset('');
       //console.log("-issueBookList->"+JSON.stringify(this.issueBookList));
     }
@@ -134,9 +169,7 @@ selected(event: MatAutocompleteSelectedEvent): void {
   //this.issueBookList = this.issueBookList.filter(item => item.id !== bookId);
   let index = this.issueBookList.findIndex(d => d.id === bookId); //find index in your array
   this.issueBookList.splice(index, 1);
-  this.dataSource=new MatTableDataSource(this.issueBookList);
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
+  this.dataSource.data = this.issueBookList;
   //console.log("bookId-->"+JSON.stringify(this.issueBookList));
 
  }

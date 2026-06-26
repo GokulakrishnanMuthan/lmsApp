@@ -1,31 +1,33 @@
 <mat-card>
-    <mat-card-header>
-      <mat-card-title><h1>User Registration</h1></mat-card-title>
-    </mat-card-header>
-     <mat-card-content>
-        <form class="example-form" [formGroup]="registerFrom" (ngSubmit)="updateUser()">
-              <mat-form-field class="example-full-width">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" >
-              </mat-form-field>
-              <mat-form-field class="example-full-width" formControlName="role">
-                <mat-label>Role</mat-label>
-                <mat-select>
-                  <mat-option value=''>Select Role</mat-option>
-                  <mat-option *ngFor="let item of roleList" [value]="item.code">
-                    {{item.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <div>
-                <mat-checkbox class="example-margin" formControlName="isActive" >Is Active</mat-checkbox>
-              </div>
-              <div>
-                <button mat-raised-button color="primary" type="submit">Update</button>&nbsp;&nbsp;&nbsp;
-                <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
-              </div>
-          </form>
+  <mat-card-header>
+    <mat-card-title><h1>User Registration</h1></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="registerFrom" (ngSubmit)="updateUser()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" >
+      </mat-form-field>
+      <mat-form-field class="example-full-width" formControlName="role">
+        <mat-label>Role</mat-label>
+        <mat-select>
+          <mat-option value=''>Select Role</mat-option>
+          @for (item of roleList; track item) {
+            <mat-option [value]="item.code">
+              {{item.name}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <mat-checkbox class="example-margin" formControlName="isActive" >Is Active</mat-checkbox>
+      </div>
+      <div>
+        <button mat-raised-button color="primary" type="submit">Update</button>&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+      </div>
+    </form>
 
-    </mat-card-content>
-    
-  </mat-card>
+  </mat-card-content>
+
+</mat-card>

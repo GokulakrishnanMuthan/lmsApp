@@ -1,41 +1,30 @@
-import { BookActionTypes, BookActions } from './book.actions';
-import {BookState} from './book.model'
+import { createReducer, on } from '@ngrx/store';
+import * as BookActions from './book.actions';
+import { BookState } from './book.model';
 
 export interface AppState {
   book: BookState;
 }
 
 export const initialState: BookState = {
-    rackSearchFilterVal:"",
-    rowSearchFilterVal:'',
-    accessNoSearchFilterVal:'',
-    titleSearchFilterVal:'',
-    authorSearchFilterVal:'',
-    publisherSearchFilterVal:'',
-    languageSearchFilterVal:''
+  rackSearchFilterVal: '',
+  rowSearchFilterVal: '',
+  accessNoSearchFilterVal: '',
+  titleSearchFilterVal: '',
+  authorSearchFilterVal: '',
+  publisherSearchFilterVal: '',
+  languageSearchFilterVal: '',
+  bookStatusSearchFilterVal: '',
 };
 
-
-
-export function reducer(state:BookState = initialState, action: BookActions) {
-    //console.log("access No"+JSON.stringify(action))
-   // console.log("state-->"+JSON.stringify(state));
-  switch (action.type) {
-    case BookActionTypes.rackSearchFilter: 
-     return {...state, rackSearchFilterVal:action['rackValue']    };
-    case BookActionTypes.rowSearchFilter: 
-        return {...state, rowSearchFilterVal:action['rsValue']  };
-    case BookActionTypes.accessNoSearchFilter: 
-      return {...state, accessNoSearchFilterVal:action['anS']  };
-    case BookActionTypes.titleSearchFilter: 
-      return {...state, titleSearchFilterVal:action['bS']  };
-    case BookActionTypes.authorSearchFilter: 
-      return {...state, authorSearchFilterVal:action['aS']  };
-    case BookActionTypes.publisherSearchFilter: 
-      return {...state, publisherSearchFilterVal:action['pS']  };
-    case BookActionTypes.languageSearchFilter: 
-      return {...state, languageSearchFilterVal:action['lS']  };
-    default:
-        return state;
-  }
-}
+export const reducer = createReducer(
+  initialState,
+  on(BookActions.rackSearchFilter, (state, { rackValue }) => ({ ...state, rackSearchFilterVal: rackValue })),
+  on(BookActions.rowSearchFilter, (state, { rsValue }) => ({ ...state, rowSearchFilterVal: rsValue })),
+  on(BookActions.accessNoSearchFilter, (state, { anS }) => ({ ...state, accessNoSearchFilterVal: anS })),
+  on(BookActions.titleSearchFilter, (state, { bS }) => ({ ...state, titleSearchFilterVal: bS })),
+  on(BookActions.authorSearchFilter, (state, { aS }) => ({ ...state, authorSearchFilterVal: aS })),
+  on(BookActions.publisherSearchFilter, (state, { pS }) => ({ ...state, publisherSearchFilterVal: pS })),
+  on(BookActions.languageSearchFilter, (state, { lS }) => ({ ...state, languageSearchFilterVal: lS })),
+  on(BookActions.bookStatusSearchFilter, (state, { bookStaS }) => ({ ...state, bookStatusSearchFilterVal: bookStaS })),
+);

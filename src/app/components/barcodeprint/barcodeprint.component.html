@@ -1,6 +1,31 @@
 <h1 mat-dialog-title>Bar Code Print</h1>
 <img [src]="imagePath" id="barcodeprint" style="max-width:100%;"/>
+
+<!-- Barcode printer detection status -->
+<div class="printer-status" [ngClass]="printerStatus">
+  <ng-container [ngSwitch]="printerStatus">
+    <span *ngSwitchCase="'checking'">
+      <mat-icon class="status-icon spin">sync</mat-icon>
+      Checking for barcode printer…
+    </span>
+    <span *ngSwitchCase="'found'">
+      <mat-icon class="status-icon ok">check_circle</mat-icon>
+      Printer: {{ detectedPrinter }}
+    </span>
+    <span *ngSwitchCase="'none'">
+      <mat-icon class="status-icon warn">error_outline</mat-icon>
+      No barcode printer found — will use the print dialog.
+    </span>
+    <span *ngSwitchCase="'unavailable'">
+      <mat-icon class="status-icon warn">cloud_off</mat-icon>
+      Printer agent (QZ Tray) not running — will use the print dialog.
+    </span>
+  </ng-container>
+</div>
+
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-raised-button color="primary" (click)="printBarcode()">Print</button>
+  <button mat-button mat-dialog-close [disabled]="printing">Close</button>
+  <button mat-raised-button color="primary" (click)="print()" [disabled]="printing">
+    {{ printing ? 'Printing…' : 'Print' }}
+  </button>
 </div>

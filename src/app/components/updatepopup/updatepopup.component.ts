@@ -1,4 +1,5 @@
-import { Component, OnInit ,Inject} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit ,Inject} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -7,11 +8,14 @@ import {MatDialog,MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
 
 
 @Component({
-  selector: 'app-updatepopup',
-  templateUrl: './updatepopup.component.html',
-  styleUrls: ['./updatepopup.component.css']
+    selector: 'app-updatepopup',
+    templateUrl: './updatepopup.component.html',
+    styleUrls: ['./updatepopup.component.css'],
+    standalone: false
 })
 export class UpdatepopupComponent implements OnInit{
+
+  private destroyRef = inject(DestroyRef);
 
   roleList:any;
   editData:any;
@@ -32,11 +36,11 @@ export class UpdatepopupComponent implements OnInit{
 
   }
   ngOnInit(): void {
-      this.service.getAllRole().subscribe( res=>{
+      this.service.getAllRole().pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
         this.roleList=res;
       })
       if(this.data.usercode !=null && this.data.usercode !=""){
-        this.service.getByCode(this.data.usercode).subscribe( res=>{
+        this.service.getByCode(this.data.usercode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
           this.editData=res;
         //  console.log("this.editData.value-->"+JSON.stringify(this.editData));
           this.registerFrom.setValue({id: this.editData.id,name: this.editData.name,password: this.editData.password,email: this.editData.email,
@@ -56,7 +60,7 @@ export class UpdatepopupComponent implements OnInit{
     //   this.toastr.warning('Please Enter Valid Data');
     // }
     //console.log("this.registerFrom.value-->"+JSON.stringify(this.registerFrom.value));
-    this.service.updateUser(this.registerFrom.value.id, this.registerFrom.value).subscribe(res => {
+    this.service.updateUser(this.registerFrom.value.id, this.registerFrom.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.toastr.success('Updated successfully.');
       this.dialogref.close();
     });

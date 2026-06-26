@@ -1,19 +1,152 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+}
 
+.login-card {
+  display: flex;
+  width: 100%;
+  max-width: 880px;
+  min-height: 480px;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
 
-  .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+/* ---- Brand / hero panel ---- */
+.brand-panel {
+  flex: 1 1 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #fff;
+  background: linear-gradient(160deg, #283593 0%, #1565c0 100%);
+  position: relative;
+}
+
+.brand-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12), transparent 60%);
+  pointer-events: none;
+}
+
+.brand-content {
+  text-align: center;
+  z-index: 1;
+}
+
+.brand-logo {
+  font-size: 72px;
+  height: 72px;
+  width: 72px;
+  margin-bottom: 12px;
+}
+
+.brand-title {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.brand-subtitle {
+  margin: 4px 0 24px;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.brand-tagline {
+  margin: 0 auto;
+  max-width: 260px;
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* ---- Form panel ---- */
+.form-panel {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 44px;
+}
+
+.form-header h2 {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.form-header p {
+  margin: 0 0 28px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-btn {
+  height: 46px;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-spinner {
+  display: inline-block;
+}
+
+/* ---- Responsive: stack on small screens ---- */
+@media (max-width: 700px) {
+  .login-card {
+    flex-direction: column;
+    max-width: 420px;
+    min-height: auto;
   }
-  
-  .example-full-width {
-    width: 100%;
+
+  .brand-panel {
+    padding: 32px 24px;
   }
-  
-  .main-div{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  .brand-logo {
+    font-size: 56px;
+    height: 56px;
+    width: 56px;
   }
-  
+
+  .brand-title {
+    font-size: 34px;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  .form-panel {
+    padding: 32px 28px 36px;
+  }
+}

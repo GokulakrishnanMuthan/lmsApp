@@ -1,35 +1,70 @@
-<div class="main-div">
-<mat-card >
+<div class="login-page">
+  <div class="login-card">
 
-        <mat-toolbar color="primary" fxLayout="row">
-        <span>LMS Login</span>
-      </mat-toolbar>
-      
-    
-    <br>
-     <mat-card-content>
-        <form class="example-form" [formGroup]="loginform" (ngSubmit)="proceedLogin()">
-            <mat-form-field class="example-full-width">
-              <mat-icon matPrefix color="primary">people</mat-icon>
-              <mat-label>Username</mat-label>
-              
-              <input matInput formControlName="name" >
-              
-            </mat-form-field>
-              <mat-form-field class="example-full-width">
-                <mat-icon matPrefix color="primary">password</mat-icon>
-                <mat-label>Password</mat-label>
-                <input type="password" matInput formControlName="password" >
-              </mat-form-field>
+    <!-- Brand / hero panel -->
+    <div class="brand-panel">
+      <div class="brand-content">
+        <mat-icon class="brand-logo">local_library</mat-icon>
+        <h1 class="brand-title">LMS</h1>
+        <p class="brand-subtitle">Library Management System</p>
+        <p class="brand-tagline">
+          Manage books, members, issues &amp; returns — all in one place.
+        </p>
+      </div>
+    </div>
 
-              <div>
-                <button mat-raised-button color="primary">Login</button>&nbsp;&nbsp;&nbsp;
-                
-              </div>
-          </form>
+    <!-- Form panel -->
+    <div class="form-panel">
+      <div class="form-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to continue to your dashboard</p>
+      </div>
 
-    </mat-card-content>
-    
-  </mat-card>
+      <form class="login-form" [formGroup]="loginform" (ngSubmit)="proceedLogin()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="name" autocomplete="username" />
+          <mat-error *ngIf="loginform.get('name')?.hasError('required')">
+            Username is required
+          </mat-error>
+        </mat-form-field>
 
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Toggle password visibility'"
+            [attr.aria-pressed]="!hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginform.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="full-width login-btn"
+          [disabled]="loading"
+        >
+          <mat-spinner *ngIf="loading" diameter="20" class="btn-spinner"></mat-spinner>
+          <span>{{ loading ? 'Signing in…' : 'Login' }}</span>
+        </button>
+      </form>
+    </div>
+
+  </div>
 </div>

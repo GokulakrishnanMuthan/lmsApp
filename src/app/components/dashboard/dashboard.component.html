@@ -1,71 +1,145 @@
-<mat-grid-list cols="4" rowHeight="2:1" gutterSize="15px" >
-    <mat-grid-tile>
-        <mat-card >
-            <mat-card-header style="background-color:#283593;padding:5px">
-                <mat-card-title>Book Master</mat-card-title>
-                
-            </mat-card-header>
-            <mat-card-content>
-                    <h1>{{bookCount}}</h1>
-            </mat-card-content>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card>
-            <mat-card-header  style="background-color:#004d40;padding:5px;align-items: center;">
-                <mat-card-title>Book Lent Count </mat-card-title>
-                
-            </mat-card-header>
-            <mat-card-content>
-                    <h1>{{bookIssueCount}}</h1>
-            </mat-card-content>
-        </mat-card>
-    </mat-grid-tile>
-     <mat-grid-tile>
-        <mat-card (click)="gotoBookLent()">
-            <mat-card-header style="background-color:#b71c1c;padding:5px;cursor: pointer;">
-                <mat-card-title>Overdue Books Count</mat-card-title>
-                
-            </mat-card-header>
-            <mat-card-content style="cursor: pointer;">
-                    <h1>{{overDueBooks}}</h1>
-            </mat-card-content>
-        </mat-card>
-    </mat-grid-tile> 
-    <mat-grid-tile>
-        <mat-card>
-            <mat-card-header style="background-color:#4a148c;padding:5px">
-                <mat-card-title>Devote Count</mat-card-title>
-                
-            </mat-card-header>
-            <mat-card-content>
-                    <h1>{{devoteCount}}</h1>
-            </mat-card-content>
-        </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="dashboard">
 
-  <br>
-    <br>  <br>
-  <mat-grid-list cols="4" rowHeight="2:1" gutterSize="15px" >
-    <mat-grid-tile>
-        <mat-card >
-            <mat-card-header style="background-color:#283593;padding:5px">
-                <mat-card-title>Current Year &nbsp;&nbsp;&nbsp;
-                                        
-                    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="editYear()">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </mat-card-title>
-                
-            </mat-card-header>
-            <mat-card-content>
-                    <h2> {{currentFromDate}} -  {{currentToDate}}</h2>
-            </mat-card-content>
-        </mat-card>
-    </mat-grid-tile>
-  
-    
-  </mat-grid-list>
-  
-  
+  <!-- Loading -->
+  <div class="dash-loading" *ngIf="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Loading dashboard…</p>
+  </div>
+
+  <!-- Error -->
+  <div class="dash-error" *ngIf="!loading && loadError">
+    <mat-icon>error_outline</mat-icon>
+    <span>Couldn't load dashboard details.</span>
+    <button mat-stroked-button color="primary" (click)="loadDashboardDetails()">Retry</button>
+  </div>
+
+  <ng-container *ngIf="!loading && !loadError">
+
+    <!-- KPI cards -->
+    <div class="kpi-grid">
+      <mat-card class="kpi-card clickable" (click)="gotoBooks()">
+        <div class="kpi-bar" style="background:#283593"></div>
+        <div class="kpi-body">
+          <mat-icon class="kpi-icon">menu_book</mat-icon>
+          <div class="kpi-text">
+            <span class="kpi-value">{{ bookCount }}</span>
+            <span class="kpi-label">Total Books</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="kpi-card">
+        <div class="kpi-bar" style="background:#00695c"></div>
+        <div class="kpi-body">
+          <mat-icon class="kpi-icon">inventory_2</mat-icon>
+          <div class="kpi-text">
+            <span class="kpi-value">{{ availableBooks }}</span>
+            <span class="kpi-label">Available Books</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="kpi-card clickable" (click)="gotoLent()">
+        <div class="kpi-bar" style="background:#004d40"></div>
+        <div class="kpi-body">
+          <mat-icon class="kpi-icon">import_contacts</mat-icon>
+          <div class="kpi-text">
+            <span class="kpi-value">{{ bookIssueCount }}</span>
+            <span class="kpi-label">Books Lent</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="kpi-card clickable" (click)="gotoBookLent()">
+        <div class="kpi-bar" style="background:#b71c1c"></div>
+        <div class="kpi-body">
+          <mat-icon class="kpi-icon">report_problem</mat-icon>
+          <div class="kpi-text">
+            <span class="kpi-value">{{ overDueBooks }}</span>
+            <span class="kpi-label">Overdue Books</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="kpi-card clickable" (click)="gotoDevotes()">
+        <div class="kpi-bar" style="background:#4a148c"></div>
+        <div class="kpi-body">
+          <mat-icon class="kpi-icon">groups</mat-icon>
+          <div class="kpi-text">
+            <span class="kpi-value">{{ devoteCount }}</span>
+            <span class="kpi-label">Members</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="kpi-card clickable" (click)="gotoRacks()">
+        <div class="kpi-bar" style="background:#37474f"></div>
+        <div class="kpi-body">
+          <mat-icon class="kpi-icon">shelves</mat-icon>
+          <div class="kpi-text">
+            <span class="kpi-value">{{ rackCount }}</span>
+            <span class="kpi-label">Racks</span>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- Current year + recent activity -->
+    <div class="lower-grid">
+
+      <mat-card class="year-card">
+        <div class="kpi-bar" style="background:#283593"></div>
+        <div class="year-body">
+          <div class="year-head">
+            <span class="kpi-label">Current Year</span>
+            <button mat-icon-button color="primary" aria-label="Edit current year" (click)="editYear()">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+          <h2 class="year-value">{{ currentFromDate }} &ndash; {{ currentToDate }}</h2>
+        </div>
+      </mat-card>
+
+      <mat-card class="recent-card">
+        <div class="recent-head">
+          <span class="kpi-label">Recent Book Issues</span>
+          <button mat-button color="primary" (click)="gotoLent()">View all</button>
+        </div>
+
+        <table mat-table [dataSource]="recentIssues" class="recent-table"
+               *ngIf="recentIssues.length; else noRecent">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Member </th>
+            <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
+          </ng-container>
+          <ng-container matColumnDef="issueDate">
+            <th mat-header-cell *matHeaderCellDef> Issued </th>
+            <td mat-cell *matCellDef="let row"> {{ row.issueDate }} </td>
+          </ng-container>
+          <ng-container matColumnDef="expireDate">
+            <th mat-header-cell *matHeaderCellDef> Due </th>
+            <td mat-cell *matCellDef="let row"> {{ row.expireDate }} </td>
+          </ng-container>
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let row"> {{ row.phone }} </td>
+          </ng-container>
+          <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Room No </th>
+            <td mat-cell *matCellDef="let row"> {{ row.address }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="recentColumns"></tr>
+          <tr mat-row [ngClass]="{'overdue-row': row.overDue == 1}"
+              *matRowDef="let row; columns: recentColumns;"></tr>
+        </table>
+
+        <ng-template #noRecent>
+          <p class="no-recent">No recent book issues.</p>
+        </ng-template>
+      </mat-card>
+
+    </div>
+
+  </ng-container>
+</div>

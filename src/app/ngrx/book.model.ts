@@ -6,4 +6,5 @@ export interface BookState {
     authorSearchFilterVal:string;
     publisherSearchFilterVal:string;
     languageSearchFilterVal:string;
+    bookStatusSearchFilterVal:string;
  }

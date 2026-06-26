@@ -1,0 +1,16 @@
+.barcode-reader {
+  width: 320px;
+  max-width: 100%;
+}
+
+.barcode-hint {
+  margin: 8px 0 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+}
+
+.barcode-error {
+  margin: 8px 0 0;
+  color: #b00020;
+  font-size: 13px;
+}

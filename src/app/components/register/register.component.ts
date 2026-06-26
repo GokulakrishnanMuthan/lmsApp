@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css'],
+    standalone: false
 })
 export class RegisterComponent {
+
+  private destroyRef = inject(DestroyRef);
 
   constructor(private buider: FormBuilder,private toastr: ToastrService, private service: AuthService, private router: Router){
 
@@ -28,7 +32,7 @@ export class RegisterComponent {
 
   proceedRegistration(){
     if(this.registerFrom.valid){
-        this.service.proceedRegister(this.registerFrom.value).subscribe( res=>{
+        this.service.proceedRegister(this.registerFrom.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe( res=>{
           this.toastr.success("Registered Successfully.");
           this.router.navigate(['login']);
         })

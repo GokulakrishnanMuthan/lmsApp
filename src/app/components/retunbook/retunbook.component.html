@@ -9,6 +9,14 @@
 
 <mat-card>
   <mat-card-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Scan Access No</mat-label>
+      <input matInput placeholder="Scan or type access no" aria-label="Scan Access No"
+             [(ngModel)]="scanField" appScanInput (scan)="onAccessnoScan($event)">
+      <button mat-icon-button matSuffix type="button" (click)="scanBook()" matTooltip="Scan with camera">
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+    </mat-form-field>
     <div class="mat-elevation-z8">
       <table mat-table matSort [dataSource]="dataSource">
 
